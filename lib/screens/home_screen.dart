@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_laravel/screens/login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -11,40 +12,49 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Flutter Laravel Auth'),
-      
       ),
-      body: Center(child: Text('Home Sceen'),),
+      body: Center(
+        child: Text('Home Sceen'),
+      ),
       drawer: Drawer(
-
         child: ListView(
           children: [
             DrawerHeader(
-              
               child: Column(
                 children: [
                   CircleAvatar(
                     backgroundColor: Colors.white,
                     radius: 30,
                   ),
-                  SizedBox(height: 10,),
-                  Text('Abdulaziz Alzaabi', style: 
-                  TextStyle(color: Colors.white),),
-                  SizedBox(height: 10,),
-                  Text('Aziz@test.com', style: 
-                  TextStyle(color: Colors.white),),
-
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Abdulaziz Alzaabi',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Aziz@test.com',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ],
               ),
-                 decoration: BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.blue,
               ),
             ),
             ListTile(
               title: Text('Login'),
               leading: Icon(Icons.login),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              },
             ),
-             ListTile(
+            ListTile(
               title: Text('Logout'),
               leading: Icon(Icons.logout),
               onTap: () {},
@@ -52,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      
     );
   }
 }
