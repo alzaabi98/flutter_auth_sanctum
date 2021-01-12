@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_laravel/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -49,13 +51,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.blue,
                 child: Text('Login', style: TextStyle(color: Colors.white)),
                 onPressed: () {
-                  Map  creds = {
-                    'email' : _emailController.text,
-                    'password' : _passwordController.text,
-                    'device_name' : 'mobile',
+                  Map creds = {
+                    'email': _emailController.text,
+                    'password': _passwordController.text,
+                    'device_name': 'mobile',
                   };
                   if (_formKey.currentState.validate()) {
-                    print(creds);
+                    Provider.of<Auth>(context, listen: false)
+                        .login(creds: creds);
+                    Navigator.pop(context);
                   }
                 },
               )

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_laravel/screens/login_screen.dart';
+import 'package:flutter_laravel/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,52 +18,63 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: Text('Home Sceen'),
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 30,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Abdulaziz Alzaabi',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Aziz@test.com',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
+      drawer: Drawer(child: Consumer<Auth>(builder: (context, auth, child) {
+        if (!auth.authenticated) {
+          return ListView(
+            children: [
+                   ListTile(
+                title: Text('Login'),
+                leading: Icon(Icons.login),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
               ),
-              decoration: BoxDecoration(
-                color: Colors.blue,
+            ],
+          );
+        } else {
+          return ListView(
+            children: [
+              DrawerHeader(
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 30,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Abdulaziz Alzaabi',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Aziz@test.com',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
               ),
-            ),
-            ListTile(
-              title: Text('Login'),
-              leading: Icon(Icons.login),
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
-              },
-            ),
-            ListTile(
-              title: Text('Logout'),
-              leading: Icon(Icons.logout),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
+         
+              ListTile(
+                title: Text('Logout'),
+                leading: Icon(Icons.logout),
+                onTap: () {
+                   Provider.of<Auth>(context, listen: false)
+                        .logout();
+                },
+              ),
+            ],
+          );
+        }
+      })),
     );
   }
 }
