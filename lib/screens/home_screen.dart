@@ -40,20 +40,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     CircleAvatar(
                       backgroundColor: Colors.white,
+                      backgroundImage: NetworkImage(auth.user.avatar),
                       radius: 30,
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      'Abdulaziz Alzaabi',
+                      auth.user.name,
                       style: TextStyle(color: Colors.white),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      'Aziz@test.com',
+                      auth.user.email,
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
