@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_laravel/screens/login_screen.dart';
 import 'package:flutter_laravel/services/auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -9,6 +10,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final storage = new FlutterSecureStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    readToken();
+  }
+
+  void readToken() async {
+    String token = await storage.read(key: 'token');
+    Provider.of<Auth>(context, listen: false).tryToken(token: token);
+    print(token);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (!auth.authenticated) {
           return ListView(
             children: [
-                   ListTile(
+              ListTile(
                 title: Text('Login'),
                 leading: Icon(Icons.login),
                 onTap: () {
@@ -63,13 +78,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.blue,
                 ),
               ),
-         
               ListTile(
                 title: Text('Logout'),
                 leading: Icon(Icons.logout),
                 onTap: () {
-                   Provider.of<Auth>(context, listen: false)
-                        .logout();
+                  Provider.of<Auth>(context, listen: false).logout();
                 },
               ),
             ],
